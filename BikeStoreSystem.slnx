@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="BikeStore.API/BikeStore.API.csproj" Id="4c68d995-3435-490a-9f08-b95698c3bfeb" />
+  <Project Path="BikeStore.Datos/BikeStore.Datos.csproj" />
+  <Project Path="BikeStore.Web/BikeStore.Web.csproj" Id="531f08d0-d722-4963-b719-55451d37bad0" />
+</Solution>
