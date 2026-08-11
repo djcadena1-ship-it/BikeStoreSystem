@@ -49,7 +49,7 @@ namespace BikeStore.API.Controllers
             }
         }
 
-        // GET: api/clientes/cedula/1234567890
+        // GET: api/clientes/cedula
         [HttpGet("cedula/{cedula}")]
         public async Task<ActionResult<Cliente>> GetClientePorCedula(string cedula)
         {
@@ -95,7 +95,7 @@ namespace BikeStore.API.Controllers
         {
             try
             {
-                // Verifica si la cédula ya existe para informar al usuario de forma clara
+                // Verificamos si la cedula ya existe para informar al usuario de forma clara
                 if (await _context.Clientes.AnyAsync(c => c.Cedula == cliente.Cedula))
                     return BadRequest($"Ya existe un cliente con la cédula {cliente.Cedula}.");
 

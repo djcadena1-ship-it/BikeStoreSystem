@@ -3,7 +3,7 @@ using BikeStore.Datos;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// agregar servicios al contenedor
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -12,7 +12,7 @@ builder.Services.AddOpenApi();
 var app = builder.Build();
 
 
-// Configure the HTTP request pipeline.
+// configuramos HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
