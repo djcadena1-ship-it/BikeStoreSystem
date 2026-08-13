@@ -1,15 +1,37 @@
+using BikeStore.Web.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Agregar servicios al contenedor de inyección de dependencias
 builder.Services.AddControllersWithViews();
+
+// Servicio para consumir la API de bicicletas
+builder.Services.AddHttpClient<BicicletaApiService>(client =>
+{
+    var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+    client.BaseAddress = new Uri(baseUrl!);
+});
+
+// Servicio para consumir la API de clientes
+builder.Services.AddHttpClient<ClienteApiService>(client =>
+{
+    var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+    client.BaseAddress = new Uri(baseUrl!);
+});
+
+// Servicio para consumir la API de ventas
+builder.Services.AddHttpClient<VentaApiService>(client =>
+{
+    var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+    client.BaseAddress = new Uri(baseUrl!);
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configurar el flujo de peticiones HTTP
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -20,9 +42,10 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+// Ruta por defecto: entra directo al listado de bicicletas
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Bicicletas}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

@@ -1,0 +1,62 @@
+﻿@model List<BikeStore.Web.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<style>
+    body {
+        background-color: #eafaf1;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="mb-1" style="color: #0f6e56;">Clientes</h1>
+        <p class="text-muted mb-0">Administra los clientes de BikeStore</p>
+    </div>
+    <a asp-action="Crear" class="btn" style="background-color: #1d9e75; color: white;">+ Nuevo cliente</a>
+</div>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info mb-0">No hay clientes registrados todavía.</div>
+}
+else
+{
+    <table class="table table-hover align-middle bg-white shadow-sm rounded overflow-hidden mb-0">
+        <thead style="background-color: #0f6e56;">
+            <tr style="color: white;">
+                <th>Cédula</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cliente in Model)
+            {
+                <tr>
+                    <td>@cliente.Cedula</td>
+                    <td>@cliente.Nombres</td>
+                    <td>@cliente.Apellidos</td>
+                    <td>@cliente.Telefono</td>
+                    <td>@cliente.Correo</td>
+                    <td class="text-center">
+                        <form asp-action="Eliminar" asp-route-id="@cliente.IdCliente" method="post" style="display:inline;"
+                              onsubmit="return confirm('¿Eliminar a @cliente.Nombres @cliente.Apellidos?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
