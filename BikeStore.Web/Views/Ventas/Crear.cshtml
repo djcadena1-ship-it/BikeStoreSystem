@@ -1,0 +1,89 @@
+﻿@model BikeStore.Web.Models.RegistrarVentaRequest
+@{
+    ViewData["Title"] = "Nueva venta";
+    var clientes = ViewBag.Clientes as List<BikeStore.Web.Models.Cliente>;
+    var bicicletas = ViewBag.Bicicletas as List<BikeStore.Web.Models.Bicicleta>;
+}
+
+<style>
+    body {
+        background-color: #fbeee7;
+    }
+</style>
+
+<div class="bg-white shadow-sm rounded p-4">
+    <h1 class="mb-1" style="color: #d85a30;">Nueva venta</h1>
+    <p class="text-muted mb-4">Registra la venta y factura al cliente</p>
+
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <form asp-action="Crear" method="post" id="formVenta">
+        <div class="mb-3">
+            <label class="form-label">Cliente</label>
+            <select name="IdCliente" class="form-select" required>
+                <option value="">-- Selecciona un cliente --</option>
+                @if (clientes != null)
+                {
+                    foreach (var c in clientes)
+                    {
+                        <option value="@c.IdCliente">@c.Nombres @c.Apellidos - @c.Cedula</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <hr />
+        <h5>Bicicletas a vender</h5>
+        <table class="table" id="tablaDetalle">
+            <thead>
+                <tr>
+                    <th>Bicicleta</th>
+                    <th style="width:120px;">Cantidad</th>
+                    <th style="width:120px;">Precio</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <button type="button" class="btn btn-outline-secondary btn-sm mb-3" onclick="agregarFila()">+ Agregar bicicleta</button>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn" style="background-color:#d85a30; color:white;">Registrar venta</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    const bicicletas = @Html.Raw(Json.Serialize(bicicletas));
+    let contador = 0;
+
+    function agregarFila() {
+        const tbody = document.querySelector("#tablaDetalle tbody");
+        const fila = document.createElement("tr");
+        const idx = contador++;
+
+        let opciones = '<option value="">-- Bicicleta --</option>';
+        bicicletas.forEach(b => {
+            opciones += `<option value="${b.idBicicleta}" data-precio="${b.precio}">${b.marca} ${b.modelo} (stock: ${b.stock})</option>`;
+        });
+
+        fila.innerHTML = `
+                <td>
+                    <select name="Detalles[${idx}].IdBicicleta" class="form-select" onchange="actualizarPrecio(this)" required>${opciones}</select>
+                </td>
+                <td><input type="number" name="Detalles[${idx}].Cantidad" class="form-control" min="1" value="1" required /></td>
+                <td><input type="number" name="Detalles[${idx}].Precio" class="form-control precio-input" step="0.01" readonly /></td>
+                <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('tr').remove()">Quitar</button></td>
+            `;
+        tbody.appendChild(fila);
+    }
+
+    function actualizarPrecio(select) {
+        const precio = select.options[select.selectedIndex].dataset.precio || 0;
+        select.closest("tr").querySelector(".precio-input").value = precio;
+    }
+
+    agregarFila();
+</script>
