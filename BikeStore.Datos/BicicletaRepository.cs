@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
+using BikeStore.Datos.Models;
 
 namespace BikeStore.Datos
 {
