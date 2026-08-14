@@ -9,7 +9,13 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// Tienes que agregar esta configuración para que la API despierte la base de datos
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// (Asegúrate de que el nombre "DefaultConnection" coincida con el de tu archivo appsettings.json)
+
 var app = builder.Build();
+
 
 
 // configuramos HTTP request pipeline.
