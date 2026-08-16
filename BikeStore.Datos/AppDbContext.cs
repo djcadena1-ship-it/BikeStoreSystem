@@ -18,7 +18,7 @@ namespace BikeStore.Datos
         {
             base.OnModelCreating(modelBuilder);
             
-            // Mapeo manual para asegurar nombres de tabla exactos si es necesario, 
+            // mapeo manual para asegurar nombres de tabla exactos si es necesario, 
             // aunque ya lo pusimos con DataAnnotations [Table(...)]
         }
     }
