@@ -2,6 +2,7 @@
 using BikeStore.Datos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using BikeStore.Datos.Models;
 
 namespace BikeStore.API.Controllers
 {
